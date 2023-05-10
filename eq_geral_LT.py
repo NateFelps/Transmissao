@@ -22,8 +22,8 @@ U =  120      # V Fase-neutro
 x = [0, 69, 138, 207, 276, 345]
 
 #Cálculo da impedância e admitância da LT em parâmetros distribuídos
-z = r + 1j*(2*m.pi*L)
-y = g + 1j*(2*m.pi*C)
+z = r + 1j*(2*m.pi*60*L)
+y = g + 1j*(2*m.pi*60*C)
 
 #Cálculo das impedâncias e potências naturais e características da LT
 Z0 = m.sqrt(L/C)
@@ -59,34 +59,59 @@ for i in range(len(x)):
     print(f"{x[i]} \t {Ux[i]} \t {Ix[i]} ")
 
 #Plotando os gráficos
+# X representa os dados colhidos via teórica
+# Y representa os dados colhidos via empírica
+Uy = [118.8, 118.6, 117.1, 116.3, 112.9, 108.3]
+Iy = [11, 32, 70, 110, 150, 190]
+# Z representa os dados colhidos via simulação
+Uz = [120, 119.5, 118, 114.52, 112.11, 107.76]
+Iz = [0, 30, 70, 120, 160, 210]
 
-#Criando figura e eixo 1
 fig, ax1 = plt.subplots()
-
-#Label do eixo x
 ax1.set_xlabel('Distância do receptor (km)', fontsize=20)
-
-#Plotando tensão no eixo y da esquerda
 ax1.plot(x, Ux, label='Tensão Ux (V)')
 ax1.plot(x, Ux, 'o',color= "C0")
 ax1.set_ylabel('Tensão Ux (V)', fontsize=20)
-
-#Criando eixo 2 como mesmo eixo horizontal x
 ax2 = ax1.twinx()
-
-#Plotando corrente no eixo y da direita
 ax2.plot(x, Ix, color='red', label='Corrente Ix (mA)')
 ax2.plot(x, Ix, 'o',color='red')
 ax2.set_ylabel('Corrente Ix (mA)', fontsize=20)
-
-#Colocando legendas e título
 ax1.legend(loc='upper left')
 ax2.legend(loc='upper right')
-plt.title('Gráfico de Tensão e Corrente', fontsize=20)
-
-#Ajustes nos tamanhos dos eixos e nos valores da tensão
+plt.title('Gráfico de tensão e corrente teóricos', fontsize=20)
 ax1.tick_params(axis='both', which='major', labelsize=14)
 ax2.tick_params(axis='both', which='major', labelsize=14)
-ax1.yaxis.set_major_formatter(ticker.FormatStrFormatter('%.5f'))
+
+# Segundo gráfico - Empírico
+fig, ax1 = plt.subplots()
+ax1.set_xlabel('Distância do receptor (km)', fontsize=20)
+ax1.plot(x, Uy, label='Tensão Ux (V)')
+ax1.plot(x, Uy, 'o',color= "C0")
+ax1.set_ylabel('Tensão Ux (V)', fontsize=20)
+ax2 = ax1.twinx()
+ax2.plot(x, Iy, color='red', label='Corrente Ix (mA)')
+ax2.plot(x, Iy, 'o',color='red')
+ax2.set_ylabel('Corrente Ix (mA)', fontsize=20)
+ax1.legend(loc='upper left')
+ax2.legend(loc='upper right')
+plt.title('Gráfico de tensão e corrente empíricos', fontsize=20)
+ax1.tick_params(axis='both', which='major', labelsize=14)
+ax2.tick_params(axis='both', which='major', labelsize=14)
+
+# Terceiro gráfico - Simulado
+fig, ax1 = plt.subplots()
+ax1.set_xlabel('Distância do receptor (km)', fontsize=20)
+ax1.plot(x, Uz, label='Tensão Ux (V)')
+ax1.plot(x, Uz, 'o',color= "C0")
+ax1.set_ylabel('Tensão Ux (V)', fontsize=20)
+ax2 = ax1.twinx()
+ax2.plot(x, Iz, color='red', label='Corrente Ix (mA)')
+ax2.plot(x, Iz, 'o',color='red')
+ax2.set_ylabel('Corrente Ix (mA)', fontsize=20)
+ax1.legend(loc='upper left')
+ax2.legend(loc='upper right')
+plt.title('Gráfico de tensão e corrente simulados', fontsize=20)
+ax1.tick_params(axis='both', which='major', labelsize=14)
+ax2.tick_params(axis='both', which='major', labelsize=14)
 
 plt.show()
